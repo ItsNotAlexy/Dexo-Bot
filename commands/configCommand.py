@@ -81,6 +81,7 @@ class ConfigCommands(commands.Cog):
                         "mute_time": None,
                         "verify_members": False,
                         "verified_role": None,
+                        "anti_alt_account": False
                     }
                 )
                 return await inter.response.send_message(
@@ -315,6 +316,80 @@ class ConfigCommands(commands.Cog):
                 return await inter.response.send_message(
                     f"✅ | Verified role has been set to **{role.mention}**."
                 )
+        else:
+            return await inter.response.send_message(
+                "❌ | You don't have the required permissions to use this command.",
+                ephemeral=True,
+            )
+        
+    @config.subcommand(
+        name="anti_alt",
+        description="Enable/Disable the anti-alt account system."
+    )
+    async def antiAltConfig(
+        self,
+        inter: Interaction,
+        option: bool = SlashOption(choices={"enabled": 1, "disabled": 0}),
+    ):
+        if inter.user.guild_permissions.manage_guild:
+            getRecords = await self.db.GuildConfigfind({"guildid": inter.guild.id})
+
+            if option == 1:
+                try:
+                    if getRecords["anti_alt_account"] == True:
+                        return await inter.response.send_message(
+                            "❌ | This option is already enabled."
+                        )
+                    else:
+                        if getRecords:
+                            await self.db.GuildConfigupdate(
+                                {"guildid": inter.guild.id}, {"anti_alt_account": True}
+                            )
+                            return await inter.response.send_message(
+                                "✅ | Anti-alt account system has been enabled."
+                            )
+                        else:
+                            await self.db.GuildConfiginsert(
+                                {"guildid": inter.guild.id, "anti_alt_account": True}
+                            )
+                            return await inter.response.send_message(
+                                "✅ | Anti-alt account system has been enabled."
+                            )
+                except KeyError:
+                    await self.db.GuildConfigupdate(
+                        {"guildid": inter.guild.id}, {"anti_alt_account": True}
+                    )
+                    return await inter.response.send_message(
+                        "✅ | Anti-alt account system has been enabled."
+                    )
+            else:
+                try:
+                    if getRecords["anti_alt_account"] == False:
+                        return await inter.response.send_message(
+                            "❌ | This option is already disabled."
+                        )
+                    else:
+                        if getRecords:
+                            await self.db.GuildConfigupdate(
+                                {"guildid": inter.guild.id}, {"anti_alt_account": False}
+                            )
+                            return await inter.response.send_message(
+                                "✅ | Anti-alt account system has been disabled."
+                            )
+                        else:
+                            await self.db.GuildConfiginsert(
+                                {"guildid": inter.guild.id, "anti_alt_account": False}
+                            )
+                            return await inter.response.send_message(
+                                "✅ | Anti-alt account system has been disabled."
+                            )
+                except KeyError:
+                    await self.db.GuildConfiginsert(
+                        {"guildid": inter.guild.id, "anti_alt_account": False}
+                    )
+                    return await inter.response.send_message(
+                        "✅ | Anti-alt account system has been disabled."
+                    )
         else:
             return await inter.response.send_message(
                 "❌ | You don't have the required permissions to use this command.",
