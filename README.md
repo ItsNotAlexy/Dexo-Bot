@@ -19,6 +19,9 @@ An advanced discord security bot with multi-features and easy to use commands.
 - [Python](https://www.python.org/)
 - [Nextcord](https://github.com/nextcord/nextcord/)
 - [MongoDB](https://www.mongodb.com/)
+- [Motor](https://motor.readthedocs.io/en/stable/)
+- [Virustotal API](https://www.virustotal.com/)
+- [Captcha](https://pypi.org/project/captcha/)
 
 # Installation
 1. Clone the repository
