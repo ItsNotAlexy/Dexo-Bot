@@ -17,7 +17,7 @@ An advanced discord security bot with multi-features and easy to use commands.
 
 # Technologies
 - [Python](https://www.python.org/)
-- [Nextcord]()
+- [Nextcord](https://github.com/nextcord/nextcord/)
 - [MongoDB](https://www.mongodb.com/)
 
 # Installation
