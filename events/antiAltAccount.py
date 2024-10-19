@@ -33,3 +33,6 @@ class AntiAltAccount(commands.Cog):
                 await log_channel.send(embed=e)
             else:
                 return
+            
+def setup(bot):
+    bot.add_cog(AntiAltAccount(bot))
